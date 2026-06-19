@@ -27,6 +27,62 @@
 </head>
 <body>
 
+    <canvas id="rain"></canvas>
+
+<script>
+const canvas = document.getElementById("rain");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const rainDrops = [];
+
+for(let i = 0; i < 200; i++){
+    rainDrops.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        length: Math.random() * 20 + 10,
+        speed: Math.random() * 6 + 4
+    });
+}
+
+function drawRain(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    ctx.strokeStyle = "rgba(255,255,255,0.25)";
+    ctx.lineWidth = 1;
+
+    rainDrops.forEach(drop=>{
+        ctx.beginPath();
+        ctx.moveTo(drop.x, drop.y);
+        ctx.lineTo(drop.x, drop.y + drop.length);
+        ctx.stroke();
+
+        drop.y += drop.speed;
+
+        if(drop.y > canvas.height){
+            drop.y = -20;
+            drop.x = Math.random() * canvas.width;
+        }
+    });
+
+    requestAnimationFrame(drawRain);
+}
+
+drawRain();
+</script>
+
+    #rain{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:999;
+}
+    
 <div class="card">
     <h1>ZACHARY.EXE</h1>
 
